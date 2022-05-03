@@ -18,7 +18,6 @@ exports.seed = function (knex) {
     {
       item: 'Get a job',
       description: 'Thanks Will',
-      completed: 0,
     },
   ]);
 };
