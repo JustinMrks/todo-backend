@@ -30,12 +30,15 @@ async function add(task) {
 
 async function update(id, task) {
   await db('todo').where({ id }).update(task);
-  return this.findById(id);
+  result = this.findById(id);
+  return result;
 }
 
 async function toggleCompletion(id) {
-  const old = db('todo').where({ id });
-  return update(id, { ...old, completed: !old.completed });
+  const old = await db('todo').where({ id }).first();
+  let newComp = 0;
+  if (old.completed == 0) newComp = 1;
+  return update(id, { ...old, completed: newComp });
 }
 
 function remove(id) {
