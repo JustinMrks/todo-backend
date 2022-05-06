@@ -7,7 +7,6 @@ module.exports = {
   findByCompletion,
   add,
   update,
-  toggleCompletion,
   remove,
 };
 
@@ -16,7 +15,7 @@ function find() {
 }
 
 function findById(id) {
-  return db('todo').where({ id });
+  return db('todo').where({ id }).first();
 }
 
 function findByCompletion(progress) {
@@ -29,18 +28,12 @@ async function add(task) {
 }
 
 async function update(id, task) {
+  console.log(task);
   await db('todo').where({ id }).update(task);
-  result = this.findById(id);
-  return result;
+  return this.findById(id);
 }
 
-async function toggleCompletion(id) {
-  const old = await db('todo').where({ id }).first();
-  let newComp = 0;
-  if (old.completed == 0) newComp = 1;
-  return update(id, { ...old, completed: newComp });
-}
-
-function remove(id) {
-  return db('todo').delete().where({ id });
+async function remove(id) {
+  await db('todo').delete().where({ id });
+  return this.find();
 }
